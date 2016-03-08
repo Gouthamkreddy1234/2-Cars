@@ -2,7 +2,13 @@
  * Stylesheet for the 2 Cars page
  */
 
+body {
+    margin: 0;
+    padding: 0;
+}
+
 #myCanvas {
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    background-color: #25337a;
 }
