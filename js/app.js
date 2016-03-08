@@ -40,10 +40,20 @@ function Car(type) {
     this.update = function () {
         if(this.position == "left") {
             this.position = "right";
-            this.x += 100;
+            var that1 = this;
+            for(var i=1; i<=20; i++) {
+                setTimeout(function () {
+                    that1.x += 5;
+                }, 5*i);
+            }
         } else {
+            var that2 = this;
             this.position = "left";
-            this.x -= 100;
+            for(var j=1; j<=20; j++) {
+                setTimeout(function () {
+                    that2.x -= 5;
+                }, 5*j);
+            }
         }
     };
 }
@@ -53,7 +63,7 @@ var RED_CAR_OBJ = new Car("red");
 var BLUE_CAR_OBJ = new Car("blue");
 
 // Keyboard Handlers
-document.addEventListener("keydown", function (e) {
+document.addEventListener("keyup", function (e) {
     if(e.keyCode == 90) {
         RED_CAR_OBJ.update();
     } else if(e.keyCode == 77) {
