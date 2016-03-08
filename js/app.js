@@ -32,5 +32,5 @@ window.onload = function () {
     var bluecar = document.getElementById("blue-car");
     ctx.drawImage(bluecar, Math.floor(WINDOW_WIDTH/2) + 120 , Math.floor(WINDOW_HEIGHT) - 180);*/
 
-    sdsadsadsasds
+    /*sdsadsadsasds*/
 };
