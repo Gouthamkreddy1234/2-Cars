@@ -31,4 +31,6 @@ window.onload = function () {
     ctx.drawImage(redcar, Math.floor(WINDOW_WIDTH/2) - 180 , Math.floor(WINDOW_HEIGHT) - 180);
     var bluecar = document.getElementById("blue-car");
     ctx.drawImage(bluecar, Math.floor(WINDOW_WIDTH/2) + 120 , Math.floor(WINDOW_HEIGHT) - 180);*/
+
+    sdsadsadsasds
 };
