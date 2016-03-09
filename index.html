@@ -16,7 +16,23 @@
 <body>
     <div id="score">0</div>
     <div id="time">00:00</div>
-    <embed id="music" src="audio/greyhound.mp3" hidden="true" autostart="true" loop="infinite"></embed>
+
+    <audio id="music" autoplay loop>
+        <source src="audio/greyhound.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="pop1" preload="auto">
+        <source src="audio/pop1.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="pop2" preload="auto">
+        <source src="audio/pop2.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="pop3" preload="auto">
+        <source src="audio/pop3.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
     <canvas id="myCanvas">
         Your browser doesn't support HTML5 Canvas.
