@@ -45,7 +45,7 @@ function Car(type) {
                 setTimeout(function () {
                     that1.x += 5;
                 }, 5*i);
-                
+
             }
         } else {
             var that2 = this;
