@@ -42,6 +42,19 @@ body {
     color: #FFFEFD;
 }
 
+#black {
+    z-index: 2000;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000000;
+    opacity: 0;
+    display: block;
+    transition: opacity 0.5s ease;
+}
+
 #initial {
     z-index: 1000;
     position: absolute;
@@ -51,9 +64,14 @@ body {
     height: 100vh;
     background: #000000;
     color: #FFFFFF;
-    opacity: 0.8;
-    filter: alpha(opacity=80);
+    opacity: 0;
     display: none;
+    transition: opacity 0.5s ease;
+}
+
+.visible {
+    opacity: 0.8 !important;
+    transition: opacity 0.5s ease;
 }
 
 #first {
@@ -87,9 +105,9 @@ body {
     height: 100vh;
     background: #000000;
     color: #FFFFFF;
-    opacity: 0.8;
-    filter: alpha(opacity=80);
+    opacity: 0;
     display: none;
+    transition: opacity 0.5s ease;
 }
 
 #last {
@@ -112,5 +130,27 @@ body {
     width: 180px;
     height: 180px;
     margin: 45px auto 0;
+    cursor: pointer;
+}
+
+.music {
+    display: none;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    bottom: 20px;
+    left: 20px;
+    z-index: 5000;
+    cursor: pointer;
+}
+
+.sound {
+    display: none;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    bottom: 20px;
+    right: 20px;
+    z-index: 5000;
     cursor: pointer;
 }

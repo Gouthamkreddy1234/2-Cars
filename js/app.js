@@ -2,7 +2,7 @@
  * Javascript file for 2 cars
  */
 
-// Basic Constants
+// Constants
 var WINDOW_WIDTH = window.innerWidth;
 var WINDOW_HEIGHT = window.innerHeight;
 var FPS = 60;
@@ -10,12 +10,18 @@ var SPEED = 1;
 var GAME_STATE = "stopped";
 var INTERVAL_ID;
 var TIMER_INTERVAL;
+var OBSTACLES_INTERVAL;
 var BACKGROUND_COLOR = "#25337a";
 var LINE_COLOR = "#6572a7";
+var SOUNDS = true;
 var SCORE = 0;
 
+// Images
 var CRASH = new Image();
 CRASH.src = "img/crash.png";
+
+var EXCLAIM = new Image();
+EXCLAIM.src = "img/exclaim.png";
 
 // Car Constants
 var RED_CAR = new Image();
@@ -68,15 +74,6 @@ function Car(type) {
 // Instantiations
 var RED_CAR_OBJ = new Car("red");
 var BLUE_CAR_OBJ = new Car("blue");
-
-// Keyboard Handlers
-document.addEventListener("keyup", function (e) {
-    if(e.keyCode == 90) {
-        RED_CAR_OBJ.update();
-    } else if(e.keyCode == 77) {
-        BLUE_CAR_OBJ.update();
-    }
-}, false);
 
 // Obstacle constants
 var RED_OBSTACLES = [];
@@ -162,22 +159,29 @@ function Obstacle(color) {
                     this.alive = false;
                     SCORE += 1;
                     document.getElementById("score").innerHTML = SCORE.toString();
-                    document.getElementById("pop1").pause();
-                    document.getElementById("pop1").currentTime = 0;
-                    document.getElementById("pop1").play();
+                    if(SOUNDS) {
+                        document.getElementById("pop1").pause();
+                        document.getElementById("pop1").currentTime = 0;
+                        document.getElementById("pop1").play();
+                    }
                 }
             } else if(color == "blue") {
                 if(BLUE_CAR_OBJ.x < (this.x - 20) + 40 && BLUE_CAR_OBJ.x + 60 > (this.x - 20) && BLUE_CAR_OBJ.y < (this.y - 20) + 40 && BLUE_CAR_OBJ.y + 50 > (this.y - 20)) {
                     this.alive = false;
                     SCORE += 1;
                     document.getElementById("score").innerHTML = SCORE.toString();
-                    document.getElementById("pop1").pause();
-                    document.getElementById("pop1").currentTime = 0;
-                    document.getElementById("pop1").play();
+                    if(SOUNDS) {
+                        document.getElementById("pop1").pause();
+                        document.getElementById("pop1").currentTime = 0;
+                        document.getElementById("pop1").play();
+                    }
                 }
             }
             if(this.y > WINDOW_HEIGHT - 50) {
-                document.getElementById("pop2").play();
+                ctx.drawImage(EXCLAIM, this.x - 25, this.y - 90);
+                if(SOUNDS){
+                    document.getElementById("pop2").play();
+                }
                 stop();
             }
         }
@@ -187,13 +191,17 @@ function Obstacle(color) {
             if(color == "red") {
                 if(RED_CAR_OBJ.x < (this.x - 20) + 60 && RED_CAR_OBJ.x + 60 > (this.x - 20) && RED_CAR_OBJ.y < (this.y - 20) + 60 && RED_CAR_OBJ.y + 50 > (this.y - 20)) {
                     ctx.drawImage(CRASH, this.x - 65, this.y - 50);
-                    document.getElementById("pop3").play();
+                    if(SOUNDS) {
+                        document.getElementById("pop3").play();
+                    }
                     stop();
                 }
             } else if(color == "blue") {
                 if(BLUE_CAR_OBJ.x < (this.x - 20) + 60 && BLUE_CAR_OBJ.x + 60 > (this.x - 20) && BLUE_CAR_OBJ.y < (this.y - 20) + 60 && BLUE_CAR_OBJ.y + 50 > (this.y - 20)) {
                     ctx.drawImage(CRASH, this.x - 65, this.y - 50);
-                    document.getElementById("pop3").play();
+                    if(SOUNDS) {
+                        document.getElementById("pop3").play();
+                    }
                     stop();
                 }
             }
@@ -212,7 +220,7 @@ function obstaclesGenerator() {
     }, 800);
 }
 
-setInterval(function () {
+function obstaclesManager() {
     RED_OBSTACLES.forEach(function (obstacle, index, object) {
         if(!obstacle.alive) {
             object.splice(index, 1);
@@ -226,7 +234,7 @@ setInterval(function () {
     if(SPEED < 5) {
         SPEED += 0.005;
     }
-}, 200);
+}
 
 // Canvas constants
 var canvas = document.getElementById("myCanvas");
@@ -309,12 +317,18 @@ function start() {
     obstaclesGenerator();
     TIMER_INTERVAL = setInterval(startTimer, 1000);
     INTERVAL_ID = setInterval(draw, 1000/FPS);
-    document.getElementById("initial").style.display = "none";
+    OBSTACLES_INTERVAL = setInterval(obstaclesManager, 200);
+
     localStorage.setItem("autostart", "false");
+    document.getElementById("initial").className = "";
+    setTimeout(function () {
+        document.getElementById("initial").style.display = "none";
+    }, 500);
 }
 
 function stop() {
     GAME_STATE = "full_stop";
+    clearInterval(OBSTACLES_INTERVAL);
     clearInterval(INTERVAL_ID);
     clearInterval(TIMER_INTERVAL);
 
@@ -323,6 +337,9 @@ function stop() {
     }
     document.getElementById("scores").innerHTML = "SCORE: " + SCORE + "<br>HIGH SCORE: " + localStorage.getItem("highscore");
     document.getElementById("final").style.display = "block";
+    setTimeout(function () {
+        document.getElementById("final").className = "visible";
+    }, 1000);
 }
 
 function restart() {
@@ -331,20 +348,56 @@ function restart() {
 }
 
 window.onload = function () {
+    drawLanes();
+    drawCars();
+
+    document.getElementById("black").className = "";
+    setTimeout(function () {
+        document.getElementById("black").style.display = "none";
+    }, 500);
+
     if(localStorage.getItem("highscore") == null) {
         localStorage.setItem("highscore",0);
     }
     if(localStorage.getItem("autostart") == "false" || localStorage.getItem("autostart") == null) {
         document.getElementById("initial").style.display = "block";
+        document.getElementById("initial").className = "visible";
     } else {
         start();
     }
 
-    drawLanes();
-    drawCars();
+    if(localStorage.getItem("music") == null) {
+        localStorage.setItem("music", "on");
+        document.getElementById("music-on").style.display = "block";
+        document.getElementById("music").play();
+    } else {
+        if(localStorage.getItem("music") == "on") {
+            document.getElementById("music-on").style.display = "block";
+            document.getElementById("music").play();
+        } else {
+            document.getElementById("music-off").style.display = "block";
+        }
+    }
+    if(localStorage.getItem("sound") == null) {
+        localStorage.setItem("sound", "on");
+        document.getElementById("sound-on").style.display = "block";
+        SOUNDS = true;
+    } else {
+        if(localStorage.getItem("sound") == "on") {
+            document.getElementById("sound-on").style.display = "block";
+            SOUNDS = true;
+        } else {
+            document.getElementById("sound-off").style.display = "block";
+            SOUNDS = false;
+        }
+    }
 
     document.addEventListener("keyup", function (e) {
-        if(e.keyCode == 32) {
+        if(e.keyCode == 90) {
+            RED_CAR_OBJ.update();
+        } else if(e.keyCode == 77) {
+            BLUE_CAR_OBJ.update();
+        } else if(e.keyCode == 32) {
             if(GAME_STATE == "stopped") {
                 start();
             } else if(GAME_STATE == "started") {
@@ -355,10 +408,34 @@ window.onload = function () {
         }
     }, false);
 
-    document.getElementById("replay").onclick = function() {
+    document.getElementById("replay").onclick = function () {
         restart();
     };
-    document.getElementById("start").onclick = function() {
+    document.getElementById("start").onclick = function () {
         start();
-    }
+    };
+    document.getElementById("music-on").onclick = function () {
+        document.getElementById("music-on").style.display = "none";
+        document.getElementById("music-off").style.display = "block";
+        localStorage.setItem("music", "off");
+        document.getElementById("music").pause();
+    };
+    document.getElementById("music-off").onclick = function () {
+        document.getElementById("music-off").style.display = "none";
+        document.getElementById("music-on").style.display = "block";
+        localStorage.setItem("music", "on");
+        document.getElementById("music").play();
+    };
+    document.getElementById("sound-on").onclick = function () {
+        document.getElementById("sound-on").style.display = "none";
+        document.getElementById("sound-off").style.display = "block";
+        localStorage.setItem("sound", "off");
+        SOUNDS = false;
+    };
+    document.getElementById("sound-off").onclick = function () {
+        document.getElementById("sound-off").style.display = "none";
+        document.getElementById("sound-on").style.display = "block";
+        localStorage.setItem("sound", "on");
+        SOUNDS = true;
+    };
 };
