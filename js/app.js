@@ -45,6 +45,7 @@ function Car(type) {
                 setTimeout(function () {
                     that1.x += 5;
                 }, 5*i);
+                
             }
         } else {
             var that2 = this;
@@ -137,7 +138,7 @@ function drawObstacles()
     ctx.lineWidth = 20;
     ctx.strokeStyle="#FE3E67";
 
-    var xrect=523;
+    var xrect=(Math.floor(WINDOW_WIDTH / 2) - 162.5);
     var yrect=59;
     var size=25;
 
@@ -158,12 +159,11 @@ function drawObstacles()
     ctx.fillRect(xrect+3, yrect+3, size-6, size-6);
 
     //blue rect
-
     ctx.lineJoin = "round";
     ctx.lineWidth = 20;
     ctx.strokeStyle="#05A8C4";
 
-    xrect=820;
+    xrect=(Math.floor(WINDOW_WIDTH / 2) +137.5);
     yrect=360;
     size=25;
 
@@ -190,9 +190,49 @@ function draw() {
     drawCars();
     drawObstacles();
 }
+var i= 0,j=0;
+function startTimer() {
+    i++;
+  var curr= document.getElementById("time");
+    if(j<1)
+    {
+        if(i<10)
+            curr.innerHTML="00:0"+i;
+        else {
+            if (i > 59) {
+                j++;
+                i=0;
+                curr.innerHTML = "0"+j+":" + "0"+i;
+            }
+            else
+            {
+            curr.innerHTML = "0"+j+":" + i;
+            }
+        }
+    }
+    else
+    {
+        if(i<10)
+        curr.innerHTML="0"+j+":0"+i;
+        else {
+            if (i > 59) {
+                j++;
+                i=0;
+                curr.innerHTML = "0"+j+":" + "0"+i;
+            }
+            else
+            {
+                curr.innerHTML = "0"+j+":" + i;
+            }
+        }
+
+    }
+
+}
 
 function start() {
     INTERVAL_ID = setInterval(draw, 1000/FPS);
+    setInterval(startTimer,1000);
 }
 
 function stop() {
