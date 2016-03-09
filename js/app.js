@@ -7,11 +7,15 @@ var WINDOW_WIDTH = window.innerWidth;
 var WINDOW_HEIGHT = window.innerHeight;
 var FPS = 60;
 var SPEED = 1;
+var GAME_STATE = "stopped";
 var INTERVAL_ID;
 var TIMER_INTERVAL;
 var BACKGROUND_COLOR = "#25337a";
 var LINE_COLOR = "#6572a7";
 var SCORE = 0;
+
+var CRASH = new Image();
+CRASH.src = "img/crash.png";
 
 // Car Constants
 var RED_CAR = new Image();
@@ -158,15 +162,22 @@ function Obstacle(color) {
                     this.alive = false;
                     SCORE += 1;
                     document.getElementById("score").innerHTML = SCORE.toString();
+                    document.getElementById("pop1").pause();
+                    document.getElementById("pop1").currentTime = 0;
+                    document.getElementById("pop1").play();
                 }
             } else if(color == "blue") {
                 if(BLUE_CAR_OBJ.x < (this.x - 20) + 40 && BLUE_CAR_OBJ.x + 60 > (this.x - 20) && BLUE_CAR_OBJ.y < (this.y - 20) + 40 && BLUE_CAR_OBJ.y + 50 > (this.y - 20)) {
                     this.alive = false;
                     SCORE += 1;
                     document.getElementById("score").innerHTML = SCORE.toString();
+                    document.getElementById("pop1").pause();
+                    document.getElementById("pop1").currentTime = 0;
+                    document.getElementById("pop1").play();
                 }
             }
             if(this.y > WINDOW_HEIGHT - 50) {
+                document.getElementById("pop2").play();
                 stop();
             }
         }
@@ -175,10 +186,14 @@ function Obstacle(color) {
         if(this.type == "square" && this.alive) {
             if(color == "red") {
                 if(RED_CAR_OBJ.x < (this.x - 20) + 60 && RED_CAR_OBJ.x + 60 > (this.x - 20) && RED_CAR_OBJ.y < (this.y - 20) + 60 && RED_CAR_OBJ.y + 50 > (this.y - 20)) {
+                    ctx.drawImage(CRASH, this.x - 65, this.y - 50);
+                    document.getElementById("pop3").play();
                     stop();
                 }
             } else if(color == "blue") {
                 if(BLUE_CAR_OBJ.x < (this.x - 20) + 60 && BLUE_CAR_OBJ.x + 60 > (this.x - 20) && BLUE_CAR_OBJ.y < (this.y - 20) + 60 && BLUE_CAR_OBJ.y + 50 > (this.y - 20)) {
+                    ctx.drawImage(CRASH, this.x - 65, this.y - 50);
+                    document.getElementById("pop3").play();
                     stop();
                 }
             }
@@ -290,16 +305,34 @@ function startTimer() {
 }
 
 function start() {
+    GAME_STATE = "started";
     obstaclesGenerator();
     TIMER_INTERVAL = setInterval(startTimer, 1000);
     INTERVAL_ID = setInterval(draw, 1000/FPS);
 }
 
 function stop() {
+    GAME_STATE = "full_stop";
     clearInterval(INTERVAL_ID);
     clearInterval(TIMER_INTERVAL);
 }
 
+function restart() {
+    location.reload();
+}
+
 window.onload = function () {
-    start();
+    drawLanes();
+    drawCars();
+    document.addEventListener("keyup", function (e) {
+        if(e.keyCode == 32) {
+            if(GAME_STATE == "stopped") {
+                start();
+            } else if(GAME_STATE == "started") {
+                stop();
+            } else {
+                restart();
+            }
+        }
+    }, false);
 };
