@@ -29,3 +29,53 @@ body {
     font-family: penultimate, sans-serif;
     color: #fffefd;
 }
+
+#final
+{
+    z-index: 1000;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000000;
+    color: #FFF;
+    opacity: 0.8;
+    filter: alpha(opacity=80); /* For IE8 and earlier */
+    display: none;
+}
+
+#last
+{
+    width:700px;
+    font-size: 150px;
+    margin:0 auto;
+    margin-top: 30px;
+    font-family: penultimate;
+
+}
+
+#scores
+{
+   width:300px;
+    font-size: 40px;
+    margin:0 auto;
+    margin-top: 20px;
+    font-family: penultimate;
+
+}
+
+#replay
+{
+    display: block;
+    width:150px;
+    height:150px;
+    margin:0 auto;
+    margin-top: 45px;
+    border-width: 10px;
+    border-radius: 50%;
+    border-style: solid;
+    padding: 20px;
+
+
+}

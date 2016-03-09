@@ -315,18 +315,33 @@ function stop() {
     GAME_STATE = "full_stop";
     clearInterval(INTERVAL_ID);
     clearInterval(TIMER_INTERVAL);
+    var score=SCORE;
+    if(score>localStorage.getItem("highscore"))
+        localStorage.setItem("highscore",score);
+    document.getElementById("scores").innerHTML="SCORE: "+score+"<br>"+"HIGH SCORE: "+localStorage.getItem("highscore");
+    document.getElementById("final").style.display="block";
 }
 
 function restart() {
     location.reload();
 }
 
+var RESTART_CLICKED=false;
+
 window.onload = function () {
     drawLanes();
     drawCars();
+    if( localStorage.getItem("highscore")==null)
+        localStorage.setItem("highscore",0);
+    if(RESTART_CLICKED==true)
+    {
+        start();
+    }
+
     document.addEventListener("keyup", function (e) {
         if(e.keyCode == 32) {
-            if(GAME_STATE == "stopped") {
+            if(GAME_STATE == "stopped") //make this pause
+            {
                 start();
             } else if(GAME_STATE == "started") {
                 stop();
@@ -335,4 +350,12 @@ window.onload = function () {
             }
         }
     }, false);
+
+    document.getElementById("replay").onclick=function()
+    {
+        RESTART_CLICKED=true;
+        location.reload();
+
+    }
+
 };
