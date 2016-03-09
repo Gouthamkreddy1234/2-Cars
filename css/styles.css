@@ -6,32 +6,43 @@
     font-family: penultimate;
     src: url(../fonts/Existence-UnicaseLight.otf);
 }
+
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 body {
     margin: 0;
     padding: 0;
 }
+
 #myCanvas {
     display: block;
 }
+
 #score {
     position: absolute;
     top: 10px;
     right: 20px;
     font-size: 70px;
     font-family: penultimate, sans-serif;
-    color: #fffefd;
+    color: #FFFEFD;
 }
+
 #time {
     position: absolute;
     top: 10px;
     left: 20px;
     font-size: 70px;
     font-family: penultimate, sans-serif;
-    color: #fffefd;
+    color: #FFFEFD;
 }
 
-#final
-{
+#initial {
     z-index: 1000;
     position: absolute;
     left: 0;
@@ -39,90 +50,67 @@ body {
     width: 100vw;
     height: 100vh;
     background: #000000;
-    color: #FFF;
+    color: #FFFFFF;
     opacity: 0.8;
-    filter: alpha(opacity=80); /* For IE8 and earlier */
+    filter: alpha(opacity=80);
     display: none;
 }
 
-#last
-{
-    width:700px;
-    font-size: 150px;
-    margin:0 auto;
-    margin-top: 30px;
-    font-family: penultimate;
-
-}
-
-#scores
-{
-   width:300px;
-    font-size: 40px;
-    margin:0 auto;
-    text-align: center;
-    margin-top: 20px;
-    font-family: penultimate;
-
-}
-
-#replay
-{
-    display: block;
-    width:150px;
-    height:150px;
-    margin:0 auto;
-    margin-top: 45px;
-    border-width: 10px;
-    border-radius: 50%;
-    border-style: solid;
-    padding: 20px;
-
-}
-
-
-#initial
-{
-    z-index: 1000;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #000000;
-    color: #FFF;
-    opacity: 0.8;
-    filter: alpha(opacity=80); /* For IE8 and earlier */
-    display: none;
-}
-
-#first
-{
-    width:450px;
+#first {
+    width: 450px;
     font-size: 160px;
-    margin:0 auto;
-    margin-top: 30px;
-    font-family: penultimate;
-
+    margin: 30px auto 0;
+    font-family: penultimate, sans-serif;
 }
 
-#howto
-{
-    width:800px;
-    font-size: 40px;
-    margin:0 auto;
-    text-align: center;
-    margin-top: 50px;
-    font-family: penultimate;
-
-}
-
-#start
-{
+#start {
     display: block;
-    width:190px;
-    height:190px;
-    margin:0 auto;
-    margin-top: 45px;
+    width: 180px;
+    height: 180px;
+    margin: 45px auto 0;
+    cursor: pointer;
+}
 
+#howto {
+    font-size: 25px;
+    text-align: center;
+    margin-top: 80px;
+    font-family: penultimate, sans-serif;
+}
+
+#final {
+    z-index: 1000;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000000;
+    color: #FFFFFF;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    display: none;
+}
+
+#last {
+    width: 700px;
+    font-size: 150px;
+    margin: 30px auto 0;
+    font-family: penultimate, sans-serif;
+}
+
+#scores {
+    width: 300px;
+    font-size: 40px;
+    text-align: center;
+    margin: 20px auto 0;
+    font-family: penultimate, sans-serif;
+}
+
+#replay {
+    display: block;
+    width: 180px;
+    height: 180px;
+    margin: 45px auto 0;
+    cursor: pointer;
 }

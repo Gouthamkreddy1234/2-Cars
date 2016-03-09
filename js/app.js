@@ -309,55 +309,44 @@ function start() {
     obstaclesGenerator();
     TIMER_INTERVAL = setInterval(startTimer, 1000);
     INTERVAL_ID = setInterval(draw, 1000/FPS);
+    document.getElementById("initial").style.display = "none";
+    localStorage.setItem("autostart", "false");
 }
 
 function stop() {
     GAME_STATE = "full_stop";
     clearInterval(INTERVAL_ID);
     clearInterval(TIMER_INTERVAL);
-    var score=SCORE;
-    if(score>localStorage.getItem("highscore"))
-        localStorage.setItem("highscore",score);
-    document.getElementById("scores").innerHTML="SCORE: "+score+"<br>"+"HIGH SCORE: "+localStorage.getItem("highscore");
-    document.getElementById("final").style.display="block";
+
+    if(SCORE > localStorage.getItem("highscore")) {
+        localStorage.setItem("highscore", SCORE);
+    }
+    document.getElementById("scores").innerHTML = "SCORE: " + SCORE + "<br>HIGH SCORE: " + localStorage.getItem("highscore");
+    document.getElementById("final").style.display = "block";
 }
 
 function restart() {
+    localStorage.setItem("autostart", "true");
     location.reload();
 }
 
-
-function readCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
-
 window.onload = function () {
+    if(localStorage.getItem("highscore") == null) {
+        localStorage.setItem("highscore",0);
+    }
+    if(localStorage.getItem("autostart") == "false" || localStorage.getItem("autostart") == null) {
+        document.getElementById("initial").style.display = "block";
+    } else {
+        start();
+    }
+
     drawLanes();
     drawCars();
-    if( localStorage.getItem("highscore")==null)
-        localStorage.setItem("highscore",0);
-    if(readCookie("amar")== null)
-    {
-        document.getElementById("initial").style.display="block";
-
-    }
-    else
-    start();
 
     document.addEventListener("keyup", function (e) {
         if(e.keyCode == 32) {
-            if(GAME_STATE == "stopped") //make this pause
-            {
+            if(GAME_STATE == "stopped") {
                 start();
-
-
             } else if(GAME_STATE == "started") {
                 stop();
             } else {
@@ -366,17 +355,10 @@ window.onload = function () {
         }
     }, false);
 
-    document.getElementById("replay").onclick=function()
-    {
-        document.cookie="amar=goutham";
-        document.getElementById("final").style.display="none";
-        location.reload();
-
+    document.getElementById("replay").onclick = function() {
+        restart();
     };
-    document.getElementById("start").onclick=function()
-    {
-        document.getElementById("initial").style.display="none";
+    document.getElementById("start").onclick = function() {
         start();
     }
-
 };
