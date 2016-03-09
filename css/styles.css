@@ -2,11 +2,36 @@
  * Stylesheet for the 2 Cars page
  */
 
+@font-face {
+    font-family: penultimate;
+    src: url(../fonts/Existence-UnicaseLight.otf);
+}
 body {
     margin: 0;
     padding: 0;
 }
-
 #myCanvas {
     display: block;
+}
+#score {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 70px;
+    font-family: penultimate, sans-serif;
+    color: #fffefd;
+}
+#time {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 70px;
+    font-family: penultimate, sans-serif;
+    color: #fffefd;
+}
+#music {
+    visibility:hidden;
+    position: absolute;
+    top: 100px;
+    left: 20px;
 }

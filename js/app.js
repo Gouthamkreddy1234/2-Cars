@@ -198,9 +198,50 @@ function draw() {
     drawObstacles();
 }
 
+var i= 0,j=0;
+function startTimer() {
+    i++;
+  var curr= document.getElementById("time");
+    if(j<1)
+    {
+        if(i<10)
+            curr.innerHTML="00:0"+i;
+        else {
+            if (i > 59) {
+                j++;
+                i=0;
+                curr.innerHTML = "0"+j+":" + "0"+i;
+            }
+            else
+            {
+            curr.innerHTML = "0"+j+":" + i;
+            }
+        }
+    }
+    else
+    {
+        if(i<10)
+        curr.innerHTML="0"+j+":0"+i;
+        else {
+            if (i > 59) {
+                j++;
+                i=0;
+                curr.innerHTML = "0"+j+":" + "0"+i;
+            }
+            else
+            {
+                curr.innerHTML = "0"+j+":" + i;
+            }
+        }
+
+    }
+
+}
+
 function start() {
     obstaclesGenerator();
     INTERVAL_ID = setInterval(draw, 1000/FPS);
+    setInterval(startTimer,1000);
 }
 
 function stop() {
