@@ -7,8 +7,10 @@ var WINDOW_WIDTH = window.innerWidth;
 var WINDOW_HEIGHT = window.innerHeight;
 var FPS = 30;
 var INTERVAL_ID;
+var TIMER_INTERVAL;
 var BACKGROUND_COLOR = "#25337a";
 var LINE_COLOR = "#6572a7";
+var SCORE = 0;
 
 // Car Constants
 var RED_CAR = new Image();
@@ -103,6 +105,7 @@ function Obstacle(color) {
     } else if(color == "blue") {
         this.color = "#05A8C4";
     }
+    this.alive = true;
 
     this.draw = function () {
         if(this.type == "circle") {
@@ -141,6 +144,44 @@ function Obstacle(color) {
 
     this.update = function () {
         this.y += 10;
+
+        // Remove elements after crossing the viewport
+        if(this.y > WINDOW_HEIGHT) {
+            this.alive = false;
+        }
+
+        // Handle with circle obstacles
+        if(this.type == "circle" && this.alive) {
+            if(color == "red") {
+                if(RED_CAR_OBJ.x < (this.x - 20) + 40 && RED_CAR_OBJ.x + 60 > (this.x - 20) && RED_CAR_OBJ.y < (this.y - 20) + 40 && RED_CAR_OBJ.y + 50 > (this.y - 20)) {
+                    this.alive = false;
+                    SCORE += 1;
+                    document.getElementById("score").innerHTML = SCORE.toString();
+                }
+            } else if(color == "blue") {
+                if(BLUE_CAR_OBJ.x < (this.x - 20) + 40 && BLUE_CAR_OBJ.x + 60 > (this.x - 20) && BLUE_CAR_OBJ.y < (this.y - 20) + 40 && BLUE_CAR_OBJ.y + 50 > (this.y - 20)) {
+                    this.alive = false;
+                    SCORE += 1;
+                    document.getElementById("score").innerHTML = SCORE.toString();
+                }
+            }
+            if(this.y > WINDOW_HEIGHT - 50) {
+                stop();
+            }
+        }
+
+        // Handle with square obstacles
+        if(this.type == "square" && this.alive) {
+            if(color == "red") {
+                if(RED_CAR_OBJ.x < (this.x - 20) + 60 && RED_CAR_OBJ.x + 60 > (this.x - 20) && RED_CAR_OBJ.y < (this.y - 20) + 60 && RED_CAR_OBJ.y + 50 > (this.y - 20)) {
+                    stop();
+                }
+            } else if(color == "blue") {
+                if(BLUE_CAR_OBJ.x < (this.x - 20) + 60 && BLUE_CAR_OBJ.x + 60 > (this.x - 20) && BLUE_CAR_OBJ.y < (this.y - 20) + 60 && BLUE_CAR_OBJ.y + 50 > (this.y - 20)) {
+                    stop();
+                }
+            }
+        }
     }
 }
 
@@ -154,6 +195,19 @@ function obstaclesGenerator() {
         BLUE_OBSTACLES.push(obstacle);
     }, 1000);
 }
+
+setInterval(function () {
+    RED_OBSTACLES.forEach(function (obstacle, index, object) {
+        if(!obstacle.alive) {
+            object.splice(index, 1);
+        }
+    });
+    BLUE_OBSTACLES.forEach(function (obstacle, index, object) {
+        if(!obstacle.alive) {
+            object.splice(index, 1);
+        }
+    });
+}, 200);
 
 // Canvas constants
 var canvas = document.getElementById("myCanvas");
@@ -188,7 +242,7 @@ function drawObstacles() {
     BLUE_OBSTACLES.forEach(function (obstacle) {
         obstacle.update();
         obstacle.draw();
-    })
+    });
 }
 
 function draw() {
@@ -233,12 +287,13 @@ function startTimer() {
 
 function start() {
     obstaclesGenerator();
-    setInterval(startTimer,1000);
+    TIMER_INTERVAL = setInterval(startTimer, 1000);
     INTERVAL_ID = setInterval(draw, 1000/FPS);
 }
 
 function stop() {
     clearInterval(INTERVAL_ID);
+    clearInterval(TIMER_INTERVAL);
 }
 
 window.onload = function () {
