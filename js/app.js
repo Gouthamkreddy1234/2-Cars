@@ -71,6 +71,90 @@ document.addEventListener("keyup", function (e) {
     }
 }, false);
 
+// Obstacles constants
+var RED_OBSTACLES = [];
+var BLUE_OBSTACLES = [];
+var RED_OBSTACLES_INTERVAL_ID;
+var BLUE_OBSTACLES_INTERVAL_ID;
+
+function Obstacle(color) {
+    this.type = Math.floor((Math.random()*2)) ? "circle" : "square";
+    this.position = Math.floor((Math.random()*2)) ? "left" : "right";
+    if(this.type == "circle") {
+        this.x = Math.floor(WINDOW_WIDTH/2) - 150;
+        if(this.position == "right") {
+            this.x += 100;
+        }
+        if(color == "blue") {
+            this.x += 200;
+        }
+    } else if(this.type == "square") {
+        this.x = Math.floor(WINDOW_WIDTH/2) - 162.5;
+        if(this.position == "right") {
+            this.x += 100;
+        }
+        if(color == "blue") {
+            this.x += 200;
+        }
+    }
+    this.y = -100;
+    if(color == "red") {
+        this.color = "#FE3E67";
+    } else if(color == "blue") {
+        this.color = "#05A8C4";
+    }
+
+    this.draw = function () {
+        if(this.type == "circle") {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 25, 0, 2*Math.PI);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 25*0.8, 0, 2*Math.PI);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 25*0.5, 0, 2*Math.PI);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        } else {
+            ctx.lineJoin = "round";
+            ctx.lineWidth = 20;
+            ctx.strokeStyle = this.color;
+            ctx.strokeRect(this.x, this.y, 25, 25);
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x, this.y, 25, 25);
+
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = "#ffffff";
+            ctx.strokeRect(this.x + 1, this.y + 1, 25 - 1.5, 25 - 1.5);
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(this.x + 1, this.y + 1, 25 - 1.5, 25 - 1.5);
+
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x + 3, this.y + 3, 25 - 6, 25 - 6);
+        }
+    };
+
+    this.update = function () {
+        this.y += 10;
+    }
+}
+
+function obstaclesGenerator() {
+    RED_OBSTACLES_INTERVAL_ID = setInterval(function () {
+        var obstacle = new Obstacle("red");
+        RED_OBSTACLES.push(obstacle);
+    }, 1000);
+    BLUE_OBSTACLES_INTERVAL_ID = setInterval(function () {
+        var obstacle = new Obstacle("blue");
+        BLUE_OBSTACLES.push(obstacle);
+    }, 1000);
+}
+
 // Canvas constants
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
@@ -84,7 +168,7 @@ function clearCanvas() {
 
 function drawLanes() {
     ctx.fillStyle = LINE_COLOR;
-    ctx.fillRect(Math.floor(WINDOW_WIDTH/2) - 5, 0, 5, WINDOW_HEIGHT);
+    ctx.fillRect(Math.floor(WINDOW_WIDTH/2) - 2.5, 0, 5, WINDOW_HEIGHT);
     ctx.fillRect(Math.floor(WINDOW_WIDTH/2) - 100, 0, 2, WINDOW_HEIGHT);
     ctx.fillRect(Math.floor(WINDOW_WIDTH/2) + 100, 0, 2, WINDOW_HEIGHT);
     ctx.fillRect(Math.floor(WINDOW_WIDTH/2) - 200, 0, 2, WINDOW_HEIGHT);
@@ -96,92 +180,15 @@ function drawCars() {
     BLUE_CAR_OBJ.draw();
 }
 
-function drawObstacles()
-{
-
-    var radius = 25;
-    ctx.beginPath();
-    ctx.arc(Math.floor(WINDOW_WIDTH / 2) - 150,Math.floor(WINDOW_HEIGHT) - 360,radius,0,2*Math.PI);
-    ctx.fillStyle = '#FE3E67';
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(Math.floor(WINDOW_WIDTH / 2) - 150,Math.floor(WINDOW_HEIGHT) - 360,radius*0.8, 0, 2*Math.PI);
-    ctx.fillStyle = 'white';
-    ctx.fill();//GO
-
-    ctx.beginPath();
-    ctx.arc(Math.floor(WINDOW_WIDTH / 2) - 150,Math.floor(WINDOW_HEIGHT) - 360,radius*0.50, 0, 2*Math.PI);
-    ctx.fillStyle = '#FE3E67';
-    ctx.fill();
-
-
-    ctx.beginPath();
-    ctx.arc(Math.floor(WINDOW_WIDTH / 2) + 150,Math.floor(WINDOW_HEIGHT) - 560,radius,0,2*Math.PI);
-    ctx.fillStyle = '#05A8C4';
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(Math.floor(WINDOW_WIDTH / 2) + 150,Math.floor(WINDOW_HEIGHT) - 560,radius*0.8, 0, 2*Math.PI);
-    ctx.fillStyle = 'white';
-    ctx.fill();//GO
-
-    ctx.beginPath();
-    ctx.arc(Math.floor(WINDOW_WIDTH / 2) + 150,Math.floor(WINDOW_HEIGHT) - 560,radius*0.50, 0, 2*Math.PI);
-    ctx.fillStyle = '#05A8C4';
-    ctx.fill();
-
-
-    //red rect
-    ctx.lineJoin = "round";
-    ctx.lineWidth = 20;
-    ctx.strokeStyle="#FE3E67";
-
-    var xrect=523;
-    var yrect=59;
-    var size=25;
-
-    // Change origin and dimensions to match true size (a stroke makes the shape a bit larger)
-    ctx.strokeRect(xrect, yrect, size,size);
-    ctx.fillStyle="#FE3E67";
-    ctx.fillRect(xrect,yrect, size,size);
-
-
-    ctx.lineWidth = 10;
-    ctx.strokeStyle="white";
-    // Change origin and dimensions to match true size (a stroke makes the shape a bit larger)
-    ctx.strokeRect(xrect+1, yrect+1, size-1.5,size-1.5);
-    ctx.fillStyle="white";
-    ctx.fillRect(xrect+1, yrect+1, size-1.5, size-1.5);
-
-    ctx.fillStyle="#FE3E67";
-    ctx.fillRect(xrect+3, yrect+3, size-6, size-6);
-
-    //blue rect
-
-    ctx.lineJoin = "round";
-    ctx.lineWidth = 20;
-    ctx.strokeStyle="#05A8C4";
-
-    xrect=820;
-    yrect=360;
-    size=25;
-
-    // Change origin and dimensions to match true size (a stroke makes the shape a bit larger)
-    ctx.strokeRect(xrect, yrect, size,size);
-    ctx.fillStyle="#05A8C4";
-    ctx.fillRect(xrect,yrect, size,size);
-
-
-    ctx.lineWidth = 10;
-    ctx.strokeStyle="white";
-    // Change origin and dimensions to match true size (a stroke makes the shape a bit larger)
-    ctx.strokeRect(xrect+1, yrect+1, size-1.5,size-1.5);
-    ctx.fillStyle="white";
-    ctx.fillRect(xrect+1, yrect+1, size-1.5, size-1.5);
-
-    ctx.fillStyle="#05A8C4";
-    ctx.fillRect(xrect+3, yrect+3, size-6, size-6);
+function drawObstacles() {
+    RED_OBSTACLES.forEach(function (obstacle) {
+        obstacle.update();
+        obstacle.draw();
+    });
+    BLUE_OBSTACLES.forEach(function (obstacle) {
+        obstacle.update();
+        obstacle.draw();
+    })
 }
 
 function draw() {
@@ -192,6 +199,7 @@ function draw() {
 }
 
 function start() {
+    obstaclesGenerator();
     INTERVAL_ID = setInterval(draw, 1000/FPS);
 }
 
