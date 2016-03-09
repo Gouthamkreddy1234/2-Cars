@@ -29,7 +29,3 @@ body {
     font-family: penultimate, sans-serif;
     color: #fffefd;
 }
-#music {
-    visibility:hidden;
-    position: absolute;
-}
