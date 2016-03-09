@@ -298,8 +298,24 @@ function start() {
 function stop() {
     clearInterval(INTERVAL_ID);
     clearInterval(TIMER_INTERVAL);
+    document.getElementById("final").style.display="block";
+    var score=SCORE;
+    if(score>localStorage.getItem("highscore"))
+        localStorage.setItem("highscore",score);
+    document.getElementById("scores").innerHTML="SCORE: "+score+"<br>"+"HIGH SCORE: "+localStorage.getItem("highscore");
+
 }
 
 window.onload = function () {
     start();
+    if(localStorage.getItem("highscore")==null)
+        localStorage.setItem("highscore",0);
+    document.getElementById("initial").style.display="none";
+
+    document.getElementById("retry").onclick=function(){
+
+        
+    }
+
 };
+
