@@ -5,7 +5,8 @@
 // Basic Constants
 var WINDOW_WIDTH = window.innerWidth;
 var WINDOW_HEIGHT = window.innerHeight;
-var FPS = 30;
+var FPS = 60;
+var SPEED = 1;
 var INTERVAL_ID;
 var TIMER_INTERVAL;
 var BACKGROUND_COLOR = "#25337a";
@@ -143,7 +144,7 @@ function Obstacle(color) {
     };
 
     this.update = function () {
-        this.y += 10;
+        this.y += 5 + Math.floor(SPEED);
 
         // Remove elements after crossing the viewport
         if(this.y > WINDOW_HEIGHT) {
@@ -189,11 +190,11 @@ function obstaclesGenerator() {
     RED_OBSTACLES_INTERVAL_ID = setInterval(function () {
         var obstacle = new Obstacle("red");
         RED_OBSTACLES.push(obstacle);
-    }, 1000);
+    }, 800);
     BLUE_OBSTACLES_INTERVAL_ID = setInterval(function () {
         var obstacle = new Obstacle("blue");
         BLUE_OBSTACLES.push(obstacle);
-    }, 1000);
+    }, 800);
 }
 
 setInterval(function () {
@@ -207,6 +208,9 @@ setInterval(function () {
             object.splice(index, 1);
         }
     });
+    if(SPEED < 5) {
+        SPEED += 0.005;
+    }
 }, 200);
 
 // Canvas constants
