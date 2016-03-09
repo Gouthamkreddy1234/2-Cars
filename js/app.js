@@ -326,16 +326,27 @@ function restart() {
     location.reload();
 }
 
-var RESTART_CLICKED=false;
+
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
 
 window.onload = function () {
     drawLanes();
     drawCars();
     if( localStorage.getItem("highscore")==null)
         localStorage.setItem("highscore",0);
-    if(RESTART_CLICKED==true)
+    if(readCookie("amar")!= null)
     {
         document.getElementById("initial").style.display="none";
+        start();
     }
 
     document.addEventListener("keyup", function (e) {
@@ -354,15 +365,14 @@ window.onload = function () {
 
     document.getElementById("replay").onclick=function()
     {
-        RESTART_CLICKED=true;
+        document.cookie="amar=goutham";
         location.reload();
 
-    }
+    };
     document.getElementById("start").onclick=function()
     {
         document.getElementById("initial").style.display="none";
         start();
-
     }
 
 };
