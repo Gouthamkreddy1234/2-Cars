@@ -356,6 +356,7 @@ window.onload = function () {
         document.getElementById("black").style.display = "none";
     }, 500);
 
+    // Local Storage Handlers
     if(localStorage.getItem("highscore") == null) {
         localStorage.setItem("highscore",0);
     }
@@ -392,6 +393,7 @@ window.onload = function () {
         }
     }
 
+    // Keyboard Handlers
     document.addEventListener("keyup", function (e) {
         if(e.keyCode == 90) {
             RED_CAR_OBJ.update();
@@ -408,6 +410,7 @@ window.onload = function () {
         }
     }, false);
 
+    // Click Handlers
     document.getElementById("replay").onclick = function () {
         restart();
     };
