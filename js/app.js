@@ -194,8 +194,8 @@ function drawObstacles() {
 function draw() {
     clearCanvas();
     drawLanes();
-    drawCars();
     drawObstacles();
+    drawCars();
 }
 
 var i= 0, j=0;
