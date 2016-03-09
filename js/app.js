@@ -343,18 +343,21 @@ window.onload = function () {
     drawCars();
     if( localStorage.getItem("highscore")==null)
         localStorage.setItem("highscore",0);
-    if(readCookie("amar")!= null)
+    if(readCookie("amar")== null)
     {
-        document.getElementById("initial").style.display="none";
-        start();
+        document.getElementById("initial").style.display="block";
+
     }
+    else
+    start();
 
     document.addEventListener("keyup", function (e) {
         if(e.keyCode == 32) {
             if(GAME_STATE == "stopped") //make this pause
             {
                 start();
-                document.getElementById("initial").style.display="none";
+
+
             } else if(GAME_STATE == "started") {
                 stop();
             } else {
@@ -366,6 +369,7 @@ window.onload = function () {
     document.getElementById("replay").onclick=function()
     {
         document.cookie="amar=goutham";
+        document.getElementById("final").style.display="none";
         location.reload();
 
     };
