@@ -71,7 +71,7 @@ document.addEventListener("keyup", function (e) {
     }
 }, false);
 
-// Obstacles constants
+// Obstacle constants
 var RED_OBSTACLES = [];
 var BLUE_OBSTACLES = [];
 var RED_OBSTACLES_INTERVAL_ID;
@@ -198,50 +198,43 @@ function draw() {
     drawObstacles();
 }
 
-var i= 0,j=0;
+var i= 0, j=0;
 function startTimer() {
     i++;
-  var curr= document.getElementById("time");
-    if(j<1)
-    {
-        if(i<10)
+    var curr= document.getElementById("time");
+    if(j<1) {
+        if(i<10) {
             curr.innerHTML="00:0"+i;
-        else {
+        } else {
             if (i > 59) {
                 j++;
                 i=0;
                 curr.innerHTML = "0"+j+":" + "0"+i;
-            }
-            else
-            {
-            curr.innerHTML = "0"+j+":" + i;
-            }
-        }
-    }
-    else
-    {
-        if(i<10)
-        curr.innerHTML="0"+j+":0"+i;
-        else {
-            if (i > 59) {
-                j++;
-                i=0;
-                curr.innerHTML = "0"+j+":" + "0"+i;
-            }
-            else
-            {
+            } else {
                 curr.innerHTML = "0"+j+":" + i;
             }
         }
-
     }
-
+    else {
+        if(i<10) {
+            curr.innerHTML="0"+j+":0"+i;
+        } else {
+            if (i > 59) {
+                j++;
+                i=0;
+                curr.innerHTML = "0"+j+":" + "0"+i;
+            }
+            else {
+                curr.innerHTML = "0"+j+":" + i;
+            }
+        }
+    }
 }
 
 function start() {
     obstaclesGenerator();
-    INTERVAL_ID = setInterval(draw, 1000/FPS);
     setInterval(startTimer,1000);
+    INTERVAL_ID = setInterval(draw, 1000/FPS);
 }
 
 function stop() {
