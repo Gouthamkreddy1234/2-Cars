@@ -14,6 +14,9 @@ var BACKGROUND_COLOR = "#25337a";
 var LINE_COLOR = "#6572a7";
 var SCORE = 0;
 
+var CRASH = new Image();
+CRASH.src = "img/crash.png";
+
 // Car Constants
 var RED_CAR = new Image();
 RED_CAR.src = "img/redcar.png";
@@ -183,11 +186,13 @@ function Obstacle(color) {
         if(this.type == "square" && this.alive) {
             if(color == "red") {
                 if(RED_CAR_OBJ.x < (this.x - 20) + 60 && RED_CAR_OBJ.x + 60 > (this.x - 20) && RED_CAR_OBJ.y < (this.y - 20) + 60 && RED_CAR_OBJ.y + 50 > (this.y - 20)) {
+                    ctx.drawImage(CRASH, this.x - 65, this.y - 50);
                     document.getElementById("pop3").play();
                     stop();
                 }
             } else if(color == "blue") {
                 if(BLUE_CAR_OBJ.x < (this.x - 20) + 60 && BLUE_CAR_OBJ.x + 60 > (this.x - 20) && BLUE_CAR_OBJ.y < (this.y - 20) + 60 && BLUE_CAR_OBJ.y + 50 > (this.y - 20)) {
+                    ctx.drawImage(CRASH, this.x - 65, this.y - 50);
                     document.getElementById("pop3").play();
                     stop();
                 }
