@@ -60,6 +60,7 @@ body {
    width:300px;
     font-size: 40px;
     margin:0 auto;
+    text-align: center;
     margin-top: 20px;
     font-family: penultimate;
 
@@ -77,5 +78,51 @@ body {
     border-style: solid;
     padding: 20px;
 
+}
+
+
+#initial
+{
+    z-index: 1000;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000000;
+    color: #FFF;
+    opacity: 0.8;
+    filter: alpha(opacity=80); /* For IE8 and earlier */
+    display: none;
+}
+
+#first
+{
+    width:450px;
+    font-size: 160px;
+    margin:0 auto;
+    margin-top: 30px;
+    font-family: penultimate;
+
+}
+
+#howto
+{
+    width:800px;
+    font-size: 40px;
+    margin:0 auto;
+    text-align: center;
+    margin-top: 50px;
+    font-family: penultimate;
+
+}
+
+#start
+{
+    display: block;
+    width:190px;
+    height:190px;
+    margin:0 auto;
+    margin-top: 45px;
 
 }
