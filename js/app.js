@@ -335,7 +335,7 @@ window.onload = function () {
         localStorage.setItem("highscore",0);
     if(RESTART_CLICKED==true)
     {
-        start();
+        document.getElementById("initial").style.display="none";
     }
 
     document.addEventListener("keyup", function (e) {
@@ -343,6 +343,7 @@ window.onload = function () {
             if(GAME_STATE == "stopped") //make this pause
             {
                 start();
+                document.getElementById("initial").style.display="none";
             } else if(GAME_STATE == "started") {
                 stop();
             } else {
@@ -355,6 +356,12 @@ window.onload = function () {
     {
         RESTART_CLICKED=true;
         location.reload();
+
+    }
+    document.getElementById("start").onclick=function()
+    {
+        document.getElementById("initial").style.display="none";
+        start();
 
     }
 
